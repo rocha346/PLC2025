@@ -1,6 +1,4 @@
 
-**PLC2025**
-
 AUTOR: **Rodrigo Gonçalves Rocha** :A108649
 
 Neste TPC, foi-nos proposto criar uma expressão regular que representasse números binários que não contivessem a subcadeia "011" em nenhuma posição.

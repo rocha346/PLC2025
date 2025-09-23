@@ -7,5 +7,10 @@ Aluno:
   **Rodrigo Gonçalves Rocha**
   
   **A108561**
-  
+
+  * [TP1](TP1/)
+
+  * [TP2](TP2/)
+
+  * [TP3](TP3/)
  

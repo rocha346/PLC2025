@@ -1,0 +1,110 @@
+program : PROGRAM ID ';' vars  lista_subprogramas conteudo '.'
+
+lista_subprogramas: lista_subprogramas subprograma
+                  | vazio
+
+subprograma : decl_function 
+            | decl_procedure
+
+decl_function : FUNCTION ID '(' args_opt ')' ':' tipo ';' vars conteudo ';'
+
+decl_procedure : PROCEDURE ID '(' args_opt ')' ';' vars conteudo ';'
+
+args_opt : lista_args
+         | vazio
+
+lista_args : lista_args ';' arg_grupo
+            | arg_grupo
+
+arg_grupo : lista_ids ':' tipo
+
+vars: VAR lista_vars 
+    | vazio
+
+lista_vars : lista_vars decl_var
+    | decl_var
+
+decl_var : lista_ids ':' tipo ';'
+
+lista_ids : lista_ids ',' ID
+          | ID
+
+tipo : INTEGER | BOOLEAN | STRING | ARRAY '[' tam ']' OF tipo
+
+tam : INT_VAL RANGE INT_VAL
+ 
+
+conteudo: BEGIN lista_comandos END
+
+lista_comandos : lista_comandos ';' comando
+               | comando
+
+comando : assignment
+        | procedure_call
+        | if_comando
+        | while_comando
+        | for_comando
+        | io_comando
+        | repeat_comando
+        | conteudo
+        | vazio
+
+assignment : variavel ASSIGN exp
+
+variavel : ID
+         | ID '[' exp ']'
+
+exp: exp_simples '=' exp_simples
+    | exp_simples NEQ exp_simples
+    | exp_simples '<' exp_simples
+    | exp_simples '>' exp_simples
+    | exp_simples LE exp_simples
+    | exp_simples GE exp_simples
+    | exp_simples
+
+exp_simples : exp_simples '+' term
+            | exp_simples '-' term
+            | exp_simples OR term
+            | term
+
+term : term '*' factor
+     | term '/' factor
+     | term DIV factor
+     | term MOD factor
+     | term AND factor
+     | factor
+
+factor : '(' exp ')'
+       | NOT factor
+       | '-' factor
+       | INT_VAL | STRING_LITERAL | REAL_VAL | TRUE | FALSE
+       | variavel
+       | function_call
+       | LENGTH (exp)
+
+function_call : ID '(' args_subp ')'
+procedure_call : ID '(' args_subp ')'
+
+args_subp : lista_exp
+          | vazio
+
+lista_exp : lista_exp ',' exp
+          | exp
+
+if_comando : IF exp THEN comando
+            | IF exp THEN comando ELSE comando
+
+while_comando : WHILE exp DO comando
+
+for_comando : FOR ID ASSIGN exp TO exp DO comando
+            | FOR ID ASSIGN exp DOWNTO exp DO comando
+
+io_comando : WRITELN '(' lista_exp ')'
+           | WRITELN '(' ')' 
+           | WRITELN
+           | READLN '(' variavel ')'
+           | READLN '(' ')'
+           | READLN
+
+
+repeat_comando : REPEAT lista_comandos UNTIL exp

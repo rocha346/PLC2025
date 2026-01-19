@@ -1,0 +1,4005 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> PROGRAM ID ; vars lista_subprogramas conteudo .
+Rule 2     conteudo -> BEGIN lista_comandos END
+Rule 3     lista_subprogramas -> lista_subprogramas subprograma
+Rule 4     lista_subprogramas -> <empty>
+Rule 5     subprograma -> decl_function
+Rule 6     subprograma -> decl_procedure
+Rule 7     decl_function -> FUNCTION ID ( args_opt ) : tipo ; vars conteudo ;
+Rule 8     decl_procedure -> PROCEDURE ID ( args_opt ) ; vars conteudo ;
+Rule 9     args_opt -> lista_args
+Rule 10    args_opt -> <empty>
+Rule 11    lista_args -> lista_args ; arg_grupo
+Rule 12    lista_args -> arg_grupo
+Rule 13    arg_grupo -> lista_ids : tipo
+Rule 14    vars -> VAR lista_vars
+Rule 15    vars -> <empty>
+Rule 16    lista_vars -> lista_vars decl_var
+Rule 17    lista_vars -> decl_var
+Rule 18    decl_var -> lista_ids : tipo ;
+Rule 19    lista_ids -> lista_ids , ID
+Rule 20    lista_ids -> ID
+Rule 21    tipo -> INTEGER
+Rule 22    tipo -> BOOLEAN
+Rule 23    tipo -> REAL
+Rule 24    tipo -> STRING
+Rule 25    tipo -> ARRAY [ tam ] OF tipo
+Rule 26    tam -> INT_VAL RANGE INT_VAL
+Rule 27    lista_comandos -> lista_comandos ; comando
+Rule 28    lista_comandos -> comando
+Rule 29    comando -> assignment
+Rule 30    comando -> procedure_call
+Rule 31    comando -> if_comando
+Rule 32    comando -> while_comando
+Rule 33    comando -> for_comando
+Rule 34    comando -> io_comando
+Rule 35    comando -> repeat_comando
+Rule 36    comando -> conteudo
+Rule 37    comando -> <empty>
+Rule 38    assignment -> variavel ASSIGN exp
+Rule 39    variavel -> ID
+Rule 40    variavel -> ID [ exp ]
+Rule 41    procedure_call -> ID ( args_subp )
+Rule 42    args_subp -> lista_exp
+Rule 43    args_subp -> <empty>
+Rule 44    if_comando -> IF exp THEN comando
+Rule 45    if_comando -> IF exp THEN comando ELSE comando
+Rule 46    while_comando -> WHILE exp DO comando
+Rule 47    for_comando -> FOR ID ASSIGN exp TO exp DO comando
+Rule 48    for_comando -> FOR ID ASSIGN exp DOWNTO exp DO comando
+Rule 49    io_comando -> WRITELN ( lista_exp )
+Rule 50    io_comando -> WRITELN
+Rule 51    io_comando -> WRITELN ( )
+Rule 52    io_comando -> READLN ( variavel )
+Rule 53    io_comando -> READLN
+Rule 54    io_comando -> READLN ( )
+Rule 55    repeat_comando -> REPEAT lista_comandos UNTIL exp
+Rule 56    lista_exp -> lista_exp , exp
+Rule 57    lista_exp -> exp
+Rule 58    exp -> exp_simples
+Rule 59    exp -> exp_simples = exp_simples
+Rule 60    exp -> exp_simples NEQ exp_simples
+Rule 61    exp -> exp_simples < exp_simples
+Rule 62    exp -> exp_simples > exp_simples
+Rule 63    exp -> exp_simples LE exp_simples
+Rule 64    exp -> exp_simples GE exp_simples
+Rule 65    exp_simples -> exp_simples + term
+Rule 66    exp_simples -> exp_simples - term
+Rule 67    exp_simples -> exp_simples OR term
+Rule 68    exp_simples -> term
+Rule 69    term -> term * factor
+Rule 70    term -> term / factor
+Rule 71    term -> term DIV factor
+Rule 72    term -> term MOD factor
+Rule 73    term -> term AND factor
+Rule 74    term -> factor
+Rule 75    factor -> variavel
+Rule 76    factor -> INT_VAL
+Rule 77    factor -> REAL_VAL
+Rule 78    factor -> STRING_LITERAL
+Rule 79    factor -> TRUE
+Rule 80    factor -> FALSE
+Rule 81    factor -> ( exp )
+Rule 82    factor -> NOT factor
+Rule 83    factor -> - factor
+Rule 84    factor -> LENGTH ( exp )
+Rule 85    factor -> function_call
+Rule 86    function_call -> ID ( args_subp )
+
+Terminals, with rules where they appear
+
+(                    : 7 8 41 49 51 52 54 81 84 86
+)                    : 7 8 41 49 51 52 54 81 84 86
+*                    : 69
++                    : 65
+,                    : 19 56
+-                    : 66 83
+.                    : 1
+/                    : 70
+:                    : 7 13 18
+;                    : 1 7 7 8 8 11 18 27
+<                    : 61
+=                    : 59
+>                    : 62
+AND                  : 73
+ARRAY                : 25
+ASSIGN               : 38 47 48
+BEGIN                : 2
+BOOLEAN              : 22
+DIV                  : 71
+DO                   : 46 47 48
+DOWNTO               : 48
+ELSE                 : 45
+END                  : 2
+FALSE                : 80
+FOR                  : 47 48
+FUNCTION             : 7
+GE                   : 64
+ID                   : 1 7 8 19 20 39 40 41 47 48 86
+IF                   : 44 45
+INTEGER              : 21
+INT_VAL              : 26 26 76
+LE                   : 63
+LENGTH               : 84
+MOD                  : 72
+NEQ                  : 60
+NOT                  : 82
+OF                   : 25
+OR                   : 67
+PROCEDURE            : 8
+PROGRAM              : 1
+RANGE                : 26
+READLN               : 52 53 54
+REAL                 : 23
+REAL_VAL             : 77
+REPEAT               : 55
+STRING               : 24
+STRING_LITERAL       : 78
+THEN                 : 44 45
+TO                   : 47
+TRUE                 : 79
+UNTIL                : 55
+VAR                  : 14
+WHILE                : 46
+WRITELN              : 49 50 51
+[                    : 25 40
+]                    : 25 40
+error                : 
+
+Nonterminals, with rules where they appear
+
+arg_grupo            : 11 12
+args_opt             : 7 8
+args_subp            : 41 86
+assignment           : 29
+comando              : 27 28 44 45 45 46 47 48
+conteudo             : 1 7 8 36
+decl_function        : 5
+decl_procedure       : 6
+decl_var             : 16 17
+exp                  : 38 40 44 45 46 47 47 48 48 55 56 57 81 84
+exp_simples          : 58 59 59 60 60 61 61 62 62 63 63 64 64 65 66 67
+factor               : 69 70 71 72 73 74 82 83
+for_comando          : 33
+function_call        : 85
+if_comando           : 31
+io_comando           : 34
+lista_args           : 9 11
+lista_comandos       : 2 27 55
+lista_exp            : 42 49 56
+lista_ids            : 13 18 19
+lista_subprogramas   : 1 3
+lista_vars           : 14 16
+procedure_call       : 30
+program              : 0
+repeat_comando       : 35
+subprograma          : 3
+tam                  : 25
+term                 : 65 66 67 68 69 70 71 72 73
+tipo                 : 7 13 18 25
+variavel             : 38 52 75
+vars                 : 1 7 8
+while_comando        : 32
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . PROGRAM ID ; vars lista_subprogramas conteudo .
+
+    PROGRAM         shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> PROGRAM . ID ; vars lista_subprogramas conteudo .
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) program -> PROGRAM ID . ; vars lista_subprogramas conteudo .
+
+    ;               shift and go to state 4
+
+
+state 4
+
+    (1) program -> PROGRAM ID ; . vars lista_subprogramas conteudo .
+    (14) vars -> . VAR lista_vars
+    (15) vars -> .
+
+    VAR             shift and go to state 6
+    BEGIN           reduce using rule 15 (vars -> .)
+    FUNCTION        reduce using rule 15 (vars -> .)
+    PROCEDURE       reduce using rule 15 (vars -> .)
+
+    vars                           shift and go to state 5
+
+state 5
+
+    (1) program -> PROGRAM ID ; vars . lista_subprogramas conteudo .
+    (3) lista_subprogramas -> . lista_subprogramas subprograma
+    (4) lista_subprogramas -> .
+
+    BEGIN           reduce using rule 4 (lista_subprogramas -> .)
+    FUNCTION        reduce using rule 4 (lista_subprogramas -> .)
+    PROCEDURE       reduce using rule 4 (lista_subprogramas -> .)
+
+    lista_subprogramas             shift and go to state 7
+
+state 6
+
+    (14) vars -> VAR . lista_vars
+    (16) lista_vars -> . lista_vars decl_var
+    (17) lista_vars -> . decl_var
+    (18) decl_var -> . lista_ids : tipo ;
+    (19) lista_ids -> . lista_ids , ID
+    (20) lista_ids -> . ID
+
+    ID              shift and go to state 11
+
+    lista_vars                     shift and go to state 8
+    decl_var                       shift and go to state 9
+    lista_ids                      shift and go to state 10
+
+state 7
+
+    (1) program -> PROGRAM ID ; vars lista_subprogramas . conteudo .
+    (3) lista_subprogramas -> lista_subprogramas . subprograma
+    (2) conteudo -> . BEGIN lista_comandos END
+    (5) subprograma -> . decl_function
+    (6) subprograma -> . decl_procedure
+    (7) decl_function -> . FUNCTION ID ( args_opt ) : tipo ; vars conteudo ;
+    (8) decl_procedure -> . PROCEDURE ID ( args_opt ) ; vars conteudo ;
+
+    BEGIN           shift and go to state 14
+    FUNCTION        shift and go to state 17
+    PROCEDURE       shift and go to state 18
+
+    conteudo                       shift and go to state 12
+    subprograma                    shift and go to state 13
+    decl_function                  shift and go to state 15
+    decl_procedure                 shift and go to state 16
+
+state 8
+
+    (14) vars -> VAR lista_vars .
+    (16) lista_vars -> lista_vars . decl_var
+    (18) decl_var -> . lista_ids : tipo ;
+    (19) lista_ids -> . lista_ids , ID
+    (20) lista_ids -> . ID
+
+    BEGIN           reduce using rule 14 (vars -> VAR lista_vars .)
+    FUNCTION        reduce using rule 14 (vars -> VAR lista_vars .)
+    PROCEDURE       reduce using rule 14 (vars -> VAR lista_vars .)
+    ID              shift and go to state 11
+
+    decl_var                       shift and go to state 19
+    lista_ids                      shift and go to state 10
+
+state 9
+
+    (17) lista_vars -> decl_var .
+
+    ID              reduce using rule 17 (lista_vars -> decl_var .)
+    BEGIN           reduce using rule 17 (lista_vars -> decl_var .)
+    FUNCTION        reduce using rule 17 (lista_vars -> decl_var .)
+    PROCEDURE       reduce using rule 17 (lista_vars -> decl_var .)
+
+
+state 10
+
+    (18) decl_var -> lista_ids . : tipo ;
+    (19) lista_ids -> lista_ids . , ID
+
+    :               shift and go to state 20
+    ,               shift and go to state 21
+
+
+state 11
+
+    (20) lista_ids -> ID .
+
+    :               reduce using rule 20 (lista_ids -> ID .)
+    ,               reduce using rule 20 (lista_ids -> ID .)
+
+
+state 12
+
+    (1) program -> PROGRAM ID ; vars lista_subprogramas conteudo . .
+
+    .               shift and go to state 22
+
+
+state 13
+
+    (3) lista_subprogramas -> lista_subprogramas subprograma .
+
+    BEGIN           reduce using rule 3 (lista_subprogramas -> lista_subprogramas subprograma .)
+    FUNCTION        reduce using rule 3 (lista_subprogramas -> lista_subprogramas subprograma .)
+    PROCEDURE       reduce using rule 3 (lista_subprogramas -> lista_subprogramas subprograma .)
+
+
+state 14
+
+    (2) conteudo -> BEGIN . lista_comandos END
+    (27) lista_comandos -> . lista_comandos ; comando
+    (28) lista_comandos -> . comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    END             reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    lista_comandos                 shift and go to state 23
+    comando                        shift and go to state 24
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 15
+
+    (5) subprograma -> decl_function .
+
+    BEGIN           reduce using rule 5 (subprograma -> decl_function .)
+    FUNCTION        reduce using rule 5 (subprograma -> decl_function .)
+    PROCEDURE       reduce using rule 5 (subprograma -> decl_function .)
+
+
+state 16
+
+    (6) subprograma -> decl_procedure .
+
+    BEGIN           reduce using rule 6 (subprograma -> decl_procedure .)
+    FUNCTION        reduce using rule 6 (subprograma -> decl_procedure .)
+    PROCEDURE       reduce using rule 6 (subprograma -> decl_procedure .)
+
+
+state 17
+
+    (7) decl_function -> FUNCTION . ID ( args_opt ) : tipo ; vars conteudo ;
+
+    ID              shift and go to state 41
+
+
+state 18
+
+    (8) decl_procedure -> PROCEDURE . ID ( args_opt ) ; vars conteudo ;
+
+    ID              shift and go to state 42
+
+
+state 19
+
+    (16) lista_vars -> lista_vars decl_var .
+
+    ID              reduce using rule 16 (lista_vars -> lista_vars decl_var .)
+    BEGIN           reduce using rule 16 (lista_vars -> lista_vars decl_var .)
+    FUNCTION        reduce using rule 16 (lista_vars -> lista_vars decl_var .)
+    PROCEDURE       reduce using rule 16 (lista_vars -> lista_vars decl_var .)
+
+
+state 20
+
+    (18) decl_var -> lista_ids : . tipo ;
+    (21) tipo -> . INTEGER
+    (22) tipo -> . BOOLEAN
+    (23) tipo -> . REAL
+    (24) tipo -> . STRING
+    (25) tipo -> . ARRAY [ tam ] OF tipo
+
+    INTEGER         shift and go to state 44
+    BOOLEAN         shift and go to state 45
+    REAL            shift and go to state 46
+    STRING          shift and go to state 47
+    ARRAY           shift and go to state 48
+
+    tipo                           shift and go to state 43
+
+state 21
+
+    (19) lista_ids -> lista_ids , . ID
+
+    ID              shift and go to state 49
+
+
+state 22
+
+    (1) program -> PROGRAM ID ; vars lista_subprogramas conteudo . .
+
+    $end            reduce using rule 1 (program -> PROGRAM ID ; vars lista_subprogramas conteudo . .)
+
+
+state 23
+
+    (2) conteudo -> BEGIN lista_comandos . END
+    (27) lista_comandos -> lista_comandos . ; comando
+
+    END             shift and go to state 50
+    ;               shift and go to state 51
+
+
+state 24
+
+    (28) lista_comandos -> comando .
+
+    END             reduce using rule 28 (lista_comandos -> comando .)
+    ;               reduce using rule 28 (lista_comandos -> comando .)
+    UNTIL           reduce using rule 28 (lista_comandos -> comando .)
+
+
+state 25
+
+    (29) comando -> assignment .
+
+    END             reduce using rule 29 (comando -> assignment .)
+    ;               reduce using rule 29 (comando -> assignment .)
+    UNTIL           reduce using rule 29 (comando -> assignment .)
+    ELSE            reduce using rule 29 (comando -> assignment .)
+
+
+state 26
+
+    (30) comando -> procedure_call .
+
+    END             reduce using rule 30 (comando -> procedure_call .)
+    ;               reduce using rule 30 (comando -> procedure_call .)
+    UNTIL           reduce using rule 30 (comando -> procedure_call .)
+    ELSE            reduce using rule 30 (comando -> procedure_call .)
+
+
+state 27
+
+    (31) comando -> if_comando .
+
+    END             reduce using rule 31 (comando -> if_comando .)
+    ;               reduce using rule 31 (comando -> if_comando .)
+    UNTIL           reduce using rule 31 (comando -> if_comando .)
+    ELSE            reduce using rule 31 (comando -> if_comando .)
+
+
+state 28
+
+    (32) comando -> while_comando .
+
+    END             reduce using rule 32 (comando -> while_comando .)
+    ;               reduce using rule 32 (comando -> while_comando .)
+    UNTIL           reduce using rule 32 (comando -> while_comando .)
+    ELSE            reduce using rule 32 (comando -> while_comando .)
+
+
+state 29
+
+    (33) comando -> for_comando .
+
+    END             reduce using rule 33 (comando -> for_comando .)
+    ;               reduce using rule 33 (comando -> for_comando .)
+    UNTIL           reduce using rule 33 (comando -> for_comando .)
+    ELSE            reduce using rule 33 (comando -> for_comando .)
+
+
+state 30
+
+    (34) comando -> io_comando .
+
+    END             reduce using rule 34 (comando -> io_comando .)
+    ;               reduce using rule 34 (comando -> io_comando .)
+    UNTIL           reduce using rule 34 (comando -> io_comando .)
+    ELSE            reduce using rule 34 (comando -> io_comando .)
+
+
+state 31
+
+    (35) comando -> repeat_comando .
+
+    END             reduce using rule 35 (comando -> repeat_comando .)
+    ;               reduce using rule 35 (comando -> repeat_comando .)
+    UNTIL           reduce using rule 35 (comando -> repeat_comando .)
+    ELSE            reduce using rule 35 (comando -> repeat_comando .)
+
+
+state 32
+
+    (36) comando -> conteudo .
+
+    END             reduce using rule 36 (comando -> conteudo .)
+    ;               reduce using rule 36 (comando -> conteudo .)
+    UNTIL           reduce using rule 36 (comando -> conteudo .)
+    ELSE            reduce using rule 36 (comando -> conteudo .)
+
+
+state 33
+
+    (38) assignment -> variavel . ASSIGN exp
+
+    ASSIGN          shift and go to state 52
+
+
+state 34
+
+    (41) procedure_call -> ID . ( args_subp )
+    (39) variavel -> ID .
+    (40) variavel -> ID . [ exp ]
+
+    (               shift and go to state 53
+    ASSIGN          reduce using rule 39 (variavel -> ID .)
+    [               shift and go to state 54
+
+
+state 35
+
+    (44) if_comando -> IF . exp THEN comando
+    (45) if_comando -> IF . exp THEN comando ELSE comando
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 55
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 36
+
+    (46) while_comando -> WHILE . exp DO comando
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 71
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 37
+
+    (47) for_comando -> FOR . ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> FOR . ID ASSIGN exp DOWNTO exp DO comando
+
+    ID              shift and go to state 72
+
+
+state 38
+
+    (49) io_comando -> WRITELN . ( lista_exp )
+    (50) io_comando -> WRITELN .
+    (51) io_comando -> WRITELN . ( )
+
+    (               shift and go to state 73
+    END             reduce using rule 50 (io_comando -> WRITELN .)
+    ;               reduce using rule 50 (io_comando -> WRITELN .)
+    UNTIL           reduce using rule 50 (io_comando -> WRITELN .)
+    ELSE            reduce using rule 50 (io_comando -> WRITELN .)
+
+
+state 39
+
+    (52) io_comando -> READLN . ( variavel )
+    (53) io_comando -> READLN .
+    (54) io_comando -> READLN . ( )
+
+    (               shift and go to state 74
+    END             reduce using rule 53 (io_comando -> READLN .)
+    ;               reduce using rule 53 (io_comando -> READLN .)
+    UNTIL           reduce using rule 53 (io_comando -> READLN .)
+    ELSE            reduce using rule 53 (io_comando -> READLN .)
+
+
+state 40
+
+    (55) repeat_comando -> REPEAT . lista_comandos UNTIL exp
+    (27) lista_comandos -> . lista_comandos ; comando
+    (28) lista_comandos -> . comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    UNTIL           reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    lista_comandos                 shift and go to state 75
+    comando                        shift and go to state 24
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 41
+
+    (7) decl_function -> FUNCTION ID . ( args_opt ) : tipo ; vars conteudo ;
+
+    (               shift and go to state 76
+
+
+state 42
+
+    (8) decl_procedure -> PROCEDURE ID . ( args_opt ) ; vars conteudo ;
+
+    (               shift and go to state 77
+
+
+state 43
+
+    (18) decl_var -> lista_ids : tipo . ;
+
+    ;               shift and go to state 78
+
+
+state 44
+
+    (21) tipo -> INTEGER .
+
+    ;               reduce using rule 21 (tipo -> INTEGER .)
+    )               reduce using rule 21 (tipo -> INTEGER .)
+
+
+state 45
+
+    (22) tipo -> BOOLEAN .
+
+    ;               reduce using rule 22 (tipo -> BOOLEAN .)
+    )               reduce using rule 22 (tipo -> BOOLEAN .)
+
+
+state 46
+
+    (23) tipo -> REAL .
+
+    ;               reduce using rule 23 (tipo -> REAL .)
+    )               reduce using rule 23 (tipo -> REAL .)
+
+
+state 47
+
+    (24) tipo -> STRING .
+
+    ;               reduce using rule 24 (tipo -> STRING .)
+    )               reduce using rule 24 (tipo -> STRING .)
+
+
+state 48
+
+    (25) tipo -> ARRAY . [ tam ] OF tipo
+
+    [               shift and go to state 79
+
+
+state 49
+
+    (19) lista_ids -> lista_ids , ID .
+
+    :               reduce using rule 19 (lista_ids -> lista_ids , ID .)
+    ,               reduce using rule 19 (lista_ids -> lista_ids , ID .)
+
+
+state 50
+
+    (2) conteudo -> BEGIN lista_comandos END .
+
+    .               reduce using rule 2 (conteudo -> BEGIN lista_comandos END .)
+    END             reduce using rule 2 (conteudo -> BEGIN lista_comandos END .)
+    ;               reduce using rule 2 (conteudo -> BEGIN lista_comandos END .)
+    UNTIL           reduce using rule 2 (conteudo -> BEGIN lista_comandos END .)
+    ELSE            reduce using rule 2 (conteudo -> BEGIN lista_comandos END .)
+
+
+state 51
+
+    (27) lista_comandos -> lista_comandos ; . comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    END             reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    UNTIL           reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    comando                        shift and go to state 80
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 52
+
+    (38) assignment -> variavel ASSIGN . exp
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    variavel                       shift and go to state 60
+    exp                            shift and go to state 81
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    function_call                  shift and go to state 69
+
+state 53
+
+    (41) procedure_call -> ID ( . args_subp )
+    (42) args_subp -> . lista_exp
+    (43) args_subp -> .
+    (56) lista_exp -> . lista_exp , exp
+    (57) lista_exp -> . exp
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    )               reduce using rule 43 (args_subp -> .)
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    args_subp                      shift and go to state 82
+    lista_exp                      shift and go to state 83
+    exp                            shift and go to state 84
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 54
+
+    (40) variavel -> ID [ . exp ]
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 85
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 55
+
+    (44) if_comando -> IF exp . THEN comando
+    (45) if_comando -> IF exp . THEN comando ELSE comando
+
+    THEN            shift and go to state 86
+
+
+state 56
+
+    (58) exp -> exp_simples .
+    (59) exp -> exp_simples . = exp_simples
+    (60) exp -> exp_simples . NEQ exp_simples
+    (61) exp -> exp_simples . < exp_simples
+    (62) exp -> exp_simples . > exp_simples
+    (63) exp -> exp_simples . LE exp_simples
+    (64) exp -> exp_simples . GE exp_simples
+    (65) exp_simples -> exp_simples . + term
+    (66) exp_simples -> exp_simples . - term
+    (67) exp_simples -> exp_simples . OR term
+
+    THEN            reduce using rule 58 (exp -> exp_simples .)
+    DO              reduce using rule 58 (exp -> exp_simples .)
+    END             reduce using rule 58 (exp -> exp_simples .)
+    ;               reduce using rule 58 (exp -> exp_simples .)
+    UNTIL           reduce using rule 58 (exp -> exp_simples .)
+    ELSE            reduce using rule 58 (exp -> exp_simples .)
+    ,               reduce using rule 58 (exp -> exp_simples .)
+    )               reduce using rule 58 (exp -> exp_simples .)
+    ]               reduce using rule 58 (exp -> exp_simples .)
+    TO              reduce using rule 58 (exp -> exp_simples .)
+    DOWNTO          reduce using rule 58 (exp -> exp_simples .)
+    =               shift and go to state 87
+    NEQ             shift and go to state 88
+    <               shift and go to state 89
+    >               shift and go to state 90
+    LE              shift and go to state 91
+    GE              shift and go to state 92
+    +               shift and go to state 93
+    -               shift and go to state 94
+    OR              shift and go to state 95
+
+
+state 57
+
+    (68) exp_simples -> term .
+    (69) term -> term . * factor
+    (70) term -> term . / factor
+    (71) term -> term . DIV factor
+    (72) term -> term . MOD factor
+    (73) term -> term . AND factor
+
+    =               reduce using rule 68 (exp_simples -> term .)
+    NEQ             reduce using rule 68 (exp_simples -> term .)
+    <               reduce using rule 68 (exp_simples -> term .)
+    >               reduce using rule 68 (exp_simples -> term .)
+    LE              reduce using rule 68 (exp_simples -> term .)
+    GE              reduce using rule 68 (exp_simples -> term .)
+    +               reduce using rule 68 (exp_simples -> term .)
+    -               reduce using rule 68 (exp_simples -> term .)
+    OR              reduce using rule 68 (exp_simples -> term .)
+    THEN            reduce using rule 68 (exp_simples -> term .)
+    DO              reduce using rule 68 (exp_simples -> term .)
+    END             reduce using rule 68 (exp_simples -> term .)
+    ;               reduce using rule 68 (exp_simples -> term .)
+    UNTIL           reduce using rule 68 (exp_simples -> term .)
+    ELSE            reduce using rule 68 (exp_simples -> term .)
+    ,               reduce using rule 68 (exp_simples -> term .)
+    )               reduce using rule 68 (exp_simples -> term .)
+    ]               reduce using rule 68 (exp_simples -> term .)
+    TO              reduce using rule 68 (exp_simples -> term .)
+    DOWNTO          reduce using rule 68 (exp_simples -> term .)
+    *               shift and go to state 96
+    /               shift and go to state 97
+    DIV             shift and go to state 98
+    MOD             shift and go to state 99
+    AND             shift and go to state 100
+
+
+state 58
+
+    (83) factor -> - . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    factor                         shift and go to state 101
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 59
+
+    (74) term -> factor .
+
+    *               reduce using rule 74 (term -> factor .)
+    /               reduce using rule 74 (term -> factor .)
+    DIV             reduce using rule 74 (term -> factor .)
+    MOD             reduce using rule 74 (term -> factor .)
+    AND             reduce using rule 74 (term -> factor .)
+    =               reduce using rule 74 (term -> factor .)
+    NEQ             reduce using rule 74 (term -> factor .)
+    <               reduce using rule 74 (term -> factor .)
+    >               reduce using rule 74 (term -> factor .)
+    LE              reduce using rule 74 (term -> factor .)
+    GE              reduce using rule 74 (term -> factor .)
+    +               reduce using rule 74 (term -> factor .)
+    -               reduce using rule 74 (term -> factor .)
+    OR              reduce using rule 74 (term -> factor .)
+    THEN            reduce using rule 74 (term -> factor .)
+    DO              reduce using rule 74 (term -> factor .)
+    END             reduce using rule 74 (term -> factor .)
+    ;               reduce using rule 74 (term -> factor .)
+    UNTIL           reduce using rule 74 (term -> factor .)
+    ELSE            reduce using rule 74 (term -> factor .)
+    ,               reduce using rule 74 (term -> factor .)
+    )               reduce using rule 74 (term -> factor .)
+    ]               reduce using rule 74 (term -> factor .)
+    TO              reduce using rule 74 (term -> factor .)
+    DOWNTO          reduce using rule 74 (term -> factor .)
+
+
+state 60
+
+    (75) factor -> variavel .
+
+    *               reduce using rule 75 (factor -> variavel .)
+    /               reduce using rule 75 (factor -> variavel .)
+    DIV             reduce using rule 75 (factor -> variavel .)
+    MOD             reduce using rule 75 (factor -> variavel .)
+    AND             reduce using rule 75 (factor -> variavel .)
+    =               reduce using rule 75 (factor -> variavel .)
+    NEQ             reduce using rule 75 (factor -> variavel .)
+    <               reduce using rule 75 (factor -> variavel .)
+    >               reduce using rule 75 (factor -> variavel .)
+    LE              reduce using rule 75 (factor -> variavel .)
+    GE              reduce using rule 75 (factor -> variavel .)
+    +               reduce using rule 75 (factor -> variavel .)
+    -               reduce using rule 75 (factor -> variavel .)
+    OR              reduce using rule 75 (factor -> variavel .)
+    THEN            reduce using rule 75 (factor -> variavel .)
+    DO              reduce using rule 75 (factor -> variavel .)
+    END             reduce using rule 75 (factor -> variavel .)
+    ;               reduce using rule 75 (factor -> variavel .)
+    UNTIL           reduce using rule 75 (factor -> variavel .)
+    ELSE            reduce using rule 75 (factor -> variavel .)
+    ,               reduce using rule 75 (factor -> variavel .)
+    )               reduce using rule 75 (factor -> variavel .)
+    ]               reduce using rule 75 (factor -> variavel .)
+    TO              reduce using rule 75 (factor -> variavel .)
+    DOWNTO          reduce using rule 75 (factor -> variavel .)
+
+
+state 61
+
+    (76) factor -> INT_VAL .
+
+    *               reduce using rule 76 (factor -> INT_VAL .)
+    /               reduce using rule 76 (factor -> INT_VAL .)
+    DIV             reduce using rule 76 (factor -> INT_VAL .)
+    MOD             reduce using rule 76 (factor -> INT_VAL .)
+    AND             reduce using rule 76 (factor -> INT_VAL .)
+    =               reduce using rule 76 (factor -> INT_VAL .)
+    NEQ             reduce using rule 76 (factor -> INT_VAL .)
+    <               reduce using rule 76 (factor -> INT_VAL .)
+    >               reduce using rule 76 (factor -> INT_VAL .)
+    LE              reduce using rule 76 (factor -> INT_VAL .)
+    GE              reduce using rule 76 (factor -> INT_VAL .)
+    +               reduce using rule 76 (factor -> INT_VAL .)
+    -               reduce using rule 76 (factor -> INT_VAL .)
+    OR              reduce using rule 76 (factor -> INT_VAL .)
+    THEN            reduce using rule 76 (factor -> INT_VAL .)
+    DO              reduce using rule 76 (factor -> INT_VAL .)
+    END             reduce using rule 76 (factor -> INT_VAL .)
+    ;               reduce using rule 76 (factor -> INT_VAL .)
+    UNTIL           reduce using rule 76 (factor -> INT_VAL .)
+    ELSE            reduce using rule 76 (factor -> INT_VAL .)
+    ,               reduce using rule 76 (factor -> INT_VAL .)
+    )               reduce using rule 76 (factor -> INT_VAL .)
+    ]               reduce using rule 76 (factor -> INT_VAL .)
+    TO              reduce using rule 76 (factor -> INT_VAL .)
+    DOWNTO          reduce using rule 76 (factor -> INT_VAL .)
+
+
+state 62
+
+    (77) factor -> REAL_VAL .
+
+    *               reduce using rule 77 (factor -> REAL_VAL .)
+    /               reduce using rule 77 (factor -> REAL_VAL .)
+    DIV             reduce using rule 77 (factor -> REAL_VAL .)
+    MOD             reduce using rule 77 (factor -> REAL_VAL .)
+    AND             reduce using rule 77 (factor -> REAL_VAL .)
+    =               reduce using rule 77 (factor -> REAL_VAL .)
+    NEQ             reduce using rule 77 (factor -> REAL_VAL .)
+    <               reduce using rule 77 (factor -> REAL_VAL .)
+    >               reduce using rule 77 (factor -> REAL_VAL .)
+    LE              reduce using rule 77 (factor -> REAL_VAL .)
+    GE              reduce using rule 77 (factor -> REAL_VAL .)
+    +               reduce using rule 77 (factor -> REAL_VAL .)
+    -               reduce using rule 77 (factor -> REAL_VAL .)
+    OR              reduce using rule 77 (factor -> REAL_VAL .)
+    THEN            reduce using rule 77 (factor -> REAL_VAL .)
+    DO              reduce using rule 77 (factor -> REAL_VAL .)
+    END             reduce using rule 77 (factor -> REAL_VAL .)
+    ;               reduce using rule 77 (factor -> REAL_VAL .)
+    UNTIL           reduce using rule 77 (factor -> REAL_VAL .)
+    ELSE            reduce using rule 77 (factor -> REAL_VAL .)
+    ,               reduce using rule 77 (factor -> REAL_VAL .)
+    )               reduce using rule 77 (factor -> REAL_VAL .)
+    ]               reduce using rule 77 (factor -> REAL_VAL .)
+    TO              reduce using rule 77 (factor -> REAL_VAL .)
+    DOWNTO          reduce using rule 77 (factor -> REAL_VAL .)
+
+
+state 63
+
+    (78) factor -> STRING_LITERAL .
+
+    *               reduce using rule 78 (factor -> STRING_LITERAL .)
+    /               reduce using rule 78 (factor -> STRING_LITERAL .)
+    DIV             reduce using rule 78 (factor -> STRING_LITERAL .)
+    MOD             reduce using rule 78 (factor -> STRING_LITERAL .)
+    AND             reduce using rule 78 (factor -> STRING_LITERAL .)
+    =               reduce using rule 78 (factor -> STRING_LITERAL .)
+    NEQ             reduce using rule 78 (factor -> STRING_LITERAL .)
+    <               reduce using rule 78 (factor -> STRING_LITERAL .)
+    >               reduce using rule 78 (factor -> STRING_LITERAL .)
+    LE              reduce using rule 78 (factor -> STRING_LITERAL .)
+    GE              reduce using rule 78 (factor -> STRING_LITERAL .)
+    +               reduce using rule 78 (factor -> STRING_LITERAL .)
+    -               reduce using rule 78 (factor -> STRING_LITERAL .)
+    OR              reduce using rule 78 (factor -> STRING_LITERAL .)
+    THEN            reduce using rule 78 (factor -> STRING_LITERAL .)
+    DO              reduce using rule 78 (factor -> STRING_LITERAL .)
+    END             reduce using rule 78 (factor -> STRING_LITERAL .)
+    ;               reduce using rule 78 (factor -> STRING_LITERAL .)
+    UNTIL           reduce using rule 78 (factor -> STRING_LITERAL .)
+    ELSE            reduce using rule 78 (factor -> STRING_LITERAL .)
+    ,               reduce using rule 78 (factor -> STRING_LITERAL .)
+    )               reduce using rule 78 (factor -> STRING_LITERAL .)
+    ]               reduce using rule 78 (factor -> STRING_LITERAL .)
+    TO              reduce using rule 78 (factor -> STRING_LITERAL .)
+    DOWNTO          reduce using rule 78 (factor -> STRING_LITERAL .)
+
+
+state 64
+
+    (79) factor -> TRUE .
+
+    *               reduce using rule 79 (factor -> TRUE .)
+    /               reduce using rule 79 (factor -> TRUE .)
+    DIV             reduce using rule 79 (factor -> TRUE .)
+    MOD             reduce using rule 79 (factor -> TRUE .)
+    AND             reduce using rule 79 (factor -> TRUE .)
+    =               reduce using rule 79 (factor -> TRUE .)
+    NEQ             reduce using rule 79 (factor -> TRUE .)
+    <               reduce using rule 79 (factor -> TRUE .)
+    >               reduce using rule 79 (factor -> TRUE .)
+    LE              reduce using rule 79 (factor -> TRUE .)
+    GE              reduce using rule 79 (factor -> TRUE .)
+    +               reduce using rule 79 (factor -> TRUE .)
+    -               reduce using rule 79 (factor -> TRUE .)
+    OR              reduce using rule 79 (factor -> TRUE .)
+    THEN            reduce using rule 79 (factor -> TRUE .)
+    DO              reduce using rule 79 (factor -> TRUE .)
+    END             reduce using rule 79 (factor -> TRUE .)
+    ;               reduce using rule 79 (factor -> TRUE .)
+    UNTIL           reduce using rule 79 (factor -> TRUE .)
+    ELSE            reduce using rule 79 (factor -> TRUE .)
+    ,               reduce using rule 79 (factor -> TRUE .)
+    )               reduce using rule 79 (factor -> TRUE .)
+    ]               reduce using rule 79 (factor -> TRUE .)
+    TO              reduce using rule 79 (factor -> TRUE .)
+    DOWNTO          reduce using rule 79 (factor -> TRUE .)
+
+
+state 65
+
+    (80) factor -> FALSE .
+
+    *               reduce using rule 80 (factor -> FALSE .)
+    /               reduce using rule 80 (factor -> FALSE .)
+    DIV             reduce using rule 80 (factor -> FALSE .)
+    MOD             reduce using rule 80 (factor -> FALSE .)
+    AND             reduce using rule 80 (factor -> FALSE .)
+    =               reduce using rule 80 (factor -> FALSE .)
+    NEQ             reduce using rule 80 (factor -> FALSE .)
+    <               reduce using rule 80 (factor -> FALSE .)
+    >               reduce using rule 80 (factor -> FALSE .)
+    LE              reduce using rule 80 (factor -> FALSE .)
+    GE              reduce using rule 80 (factor -> FALSE .)
+    +               reduce using rule 80 (factor -> FALSE .)
+    -               reduce using rule 80 (factor -> FALSE .)
+    OR              reduce using rule 80 (factor -> FALSE .)
+    THEN            reduce using rule 80 (factor -> FALSE .)
+    DO              reduce using rule 80 (factor -> FALSE .)
+    END             reduce using rule 80 (factor -> FALSE .)
+    ;               reduce using rule 80 (factor -> FALSE .)
+    UNTIL           reduce using rule 80 (factor -> FALSE .)
+    ELSE            reduce using rule 80 (factor -> FALSE .)
+    ,               reduce using rule 80 (factor -> FALSE .)
+    )               reduce using rule 80 (factor -> FALSE .)
+    ]               reduce using rule 80 (factor -> FALSE .)
+    TO              reduce using rule 80 (factor -> FALSE .)
+    DOWNTO          reduce using rule 80 (factor -> FALSE .)
+
+
+state 66
+
+    (81) factor -> ( . exp )
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 102
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 67
+
+    (82) factor -> NOT . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    factor                         shift and go to state 103
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 68
+
+    (84) factor -> LENGTH . ( exp )
+
+    (               shift and go to state 104
+
+
+state 69
+
+    (85) factor -> function_call .
+
+    *               reduce using rule 85 (factor -> function_call .)
+    /               reduce using rule 85 (factor -> function_call .)
+    DIV             reduce using rule 85 (factor -> function_call .)
+    MOD             reduce using rule 85 (factor -> function_call .)
+    AND             reduce using rule 85 (factor -> function_call .)
+    =               reduce using rule 85 (factor -> function_call .)
+    NEQ             reduce using rule 85 (factor -> function_call .)
+    <               reduce using rule 85 (factor -> function_call .)
+    >               reduce using rule 85 (factor -> function_call .)
+    LE              reduce using rule 85 (factor -> function_call .)
+    GE              reduce using rule 85 (factor -> function_call .)
+    +               reduce using rule 85 (factor -> function_call .)
+    -               reduce using rule 85 (factor -> function_call .)
+    OR              reduce using rule 85 (factor -> function_call .)
+    THEN            reduce using rule 85 (factor -> function_call .)
+    DO              reduce using rule 85 (factor -> function_call .)
+    END             reduce using rule 85 (factor -> function_call .)
+    ;               reduce using rule 85 (factor -> function_call .)
+    UNTIL           reduce using rule 85 (factor -> function_call .)
+    ELSE            reduce using rule 85 (factor -> function_call .)
+    ,               reduce using rule 85 (factor -> function_call .)
+    )               reduce using rule 85 (factor -> function_call .)
+    ]               reduce using rule 85 (factor -> function_call .)
+    TO              reduce using rule 85 (factor -> function_call .)
+    DOWNTO          reduce using rule 85 (factor -> function_call .)
+
+
+state 70
+
+    (39) variavel -> ID .
+    (40) variavel -> ID . [ exp ]
+    (86) function_call -> ID . ( args_subp )
+
+    *               reduce using rule 39 (variavel -> ID .)
+    /               reduce using rule 39 (variavel -> ID .)
+    DIV             reduce using rule 39 (variavel -> ID .)
+    MOD             reduce using rule 39 (variavel -> ID .)
+    AND             reduce using rule 39 (variavel -> ID .)
+    =               reduce using rule 39 (variavel -> ID .)
+    NEQ             reduce using rule 39 (variavel -> ID .)
+    <               reduce using rule 39 (variavel -> ID .)
+    >               reduce using rule 39 (variavel -> ID .)
+    LE              reduce using rule 39 (variavel -> ID .)
+    GE              reduce using rule 39 (variavel -> ID .)
+    +               reduce using rule 39 (variavel -> ID .)
+    -               reduce using rule 39 (variavel -> ID .)
+    OR              reduce using rule 39 (variavel -> ID .)
+    THEN            reduce using rule 39 (variavel -> ID .)
+    DO              reduce using rule 39 (variavel -> ID .)
+    END             reduce using rule 39 (variavel -> ID .)
+    ;               reduce using rule 39 (variavel -> ID .)
+    UNTIL           reduce using rule 39 (variavel -> ID .)
+    ELSE            reduce using rule 39 (variavel -> ID .)
+    ,               reduce using rule 39 (variavel -> ID .)
+    )               reduce using rule 39 (variavel -> ID .)
+    ]               reduce using rule 39 (variavel -> ID .)
+    TO              reduce using rule 39 (variavel -> ID .)
+    DOWNTO          reduce using rule 39 (variavel -> ID .)
+    [               shift and go to state 54
+    (               shift and go to state 105
+
+
+state 71
+
+    (46) while_comando -> WHILE exp . DO comando
+
+    DO              shift and go to state 106
+
+
+state 72
+
+    (47) for_comando -> FOR ID . ASSIGN exp TO exp DO comando
+    (48) for_comando -> FOR ID . ASSIGN exp DOWNTO exp DO comando
+
+    ASSIGN          shift and go to state 107
+
+
+state 73
+
+    (49) io_comando -> WRITELN ( . lista_exp )
+    (51) io_comando -> WRITELN ( . )
+    (56) lista_exp -> . lista_exp , exp
+    (57) lista_exp -> . exp
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    )               shift and go to state 109
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    lista_exp                      shift and go to state 108
+    exp                            shift and go to state 84
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 74
+
+    (52) io_comando -> READLN ( . variavel )
+    (54) io_comando -> READLN ( . )
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    )               shift and go to state 111
+    ID              shift and go to state 112
+
+    variavel                       shift and go to state 110
+
+state 75
+
+    (55) repeat_comando -> REPEAT lista_comandos . UNTIL exp
+    (27) lista_comandos -> lista_comandos . ; comando
+
+    UNTIL           shift and go to state 113
+    ;               shift and go to state 51
+
+
+state 76
+
+    (7) decl_function -> FUNCTION ID ( . args_opt ) : tipo ; vars conteudo ;
+    (9) args_opt -> . lista_args
+    (10) args_opt -> .
+    (11) lista_args -> . lista_args ; arg_grupo
+    (12) lista_args -> . arg_grupo
+    (13) arg_grupo -> . lista_ids : tipo
+    (19) lista_ids -> . lista_ids , ID
+    (20) lista_ids -> . ID
+
+    )               reduce using rule 10 (args_opt -> .)
+    ID              shift and go to state 11
+
+    args_opt                       shift and go to state 114
+    lista_args                     shift and go to state 115
+    arg_grupo                      shift and go to state 116
+    lista_ids                      shift and go to state 117
+
+state 77
+
+    (8) decl_procedure -> PROCEDURE ID ( . args_opt ) ; vars conteudo ;
+    (9) args_opt -> . lista_args
+    (10) args_opt -> .
+    (11) lista_args -> . lista_args ; arg_grupo
+    (12) lista_args -> . arg_grupo
+    (13) arg_grupo -> . lista_ids : tipo
+    (19) lista_ids -> . lista_ids , ID
+    (20) lista_ids -> . ID
+
+    )               reduce using rule 10 (args_opt -> .)
+    ID              shift and go to state 11
+
+    args_opt                       shift and go to state 118
+    lista_args                     shift and go to state 115
+    arg_grupo                      shift and go to state 116
+    lista_ids                      shift and go to state 117
+
+state 78
+
+    (18) decl_var -> lista_ids : tipo ; .
+
+    ID              reduce using rule 18 (decl_var -> lista_ids : tipo ; .)
+    BEGIN           reduce using rule 18 (decl_var -> lista_ids : tipo ; .)
+    FUNCTION        reduce using rule 18 (decl_var -> lista_ids : tipo ; .)
+    PROCEDURE       reduce using rule 18 (decl_var -> lista_ids : tipo ; .)
+
+
+state 79
+
+    (25) tipo -> ARRAY [ . tam ] OF tipo
+    (26) tam -> . INT_VAL RANGE INT_VAL
+
+    INT_VAL         shift and go to state 120
+
+    tam                            shift and go to state 119
+
+state 80
+
+    (27) lista_comandos -> lista_comandos ; comando .
+
+    END             reduce using rule 27 (lista_comandos -> lista_comandos ; comando .)
+    ;               reduce using rule 27 (lista_comandos -> lista_comandos ; comando .)
+    UNTIL           reduce using rule 27 (lista_comandos -> lista_comandos ; comando .)
+
+
+state 81
+
+    (38) assignment -> variavel ASSIGN exp .
+
+    END             reduce using rule 38 (assignment -> variavel ASSIGN exp .)
+    ;               reduce using rule 38 (assignment -> variavel ASSIGN exp .)
+    UNTIL           reduce using rule 38 (assignment -> variavel ASSIGN exp .)
+    ELSE            reduce using rule 38 (assignment -> variavel ASSIGN exp .)
+
+
+state 82
+
+    (41) procedure_call -> ID ( args_subp . )
+
+    )               shift and go to state 121
+
+
+state 83
+
+    (42) args_subp -> lista_exp .
+    (56) lista_exp -> lista_exp . , exp
+
+    )               reduce using rule 42 (args_subp -> lista_exp .)
+    ,               shift and go to state 122
+
+
+state 84
+
+    (57) lista_exp -> exp .
+
+    ,               reduce using rule 57 (lista_exp -> exp .)
+    )               reduce using rule 57 (lista_exp -> exp .)
+
+
+state 85
+
+    (40) variavel -> ID [ exp . ]
+
+    ]               shift and go to state 123
+
+
+state 86
+
+    (44) if_comando -> IF exp THEN . comando
+    (45) if_comando -> IF exp THEN . comando ELSE comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    ELSE            reduce using rule 37 (comando -> .)
+    END             reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    UNTIL           reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    comando                        shift and go to state 124
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 87
+
+    (59) exp -> exp_simples = . exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp_simples                    shift and go to state 125
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 88
+
+    (60) exp -> exp_simples NEQ . exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp_simples                    shift and go to state 126
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 89
+
+    (61) exp -> exp_simples < . exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp_simples                    shift and go to state 127
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 90
+
+    (62) exp -> exp_simples > . exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp_simples                    shift and go to state 128
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 91
+
+    (63) exp -> exp_simples LE . exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp_simples                    shift and go to state 129
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 92
+
+    (64) exp -> exp_simples GE . exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp_simples                    shift and go to state 130
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 93
+
+    (65) exp_simples -> exp_simples + . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    term                           shift and go to state 131
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 94
+
+    (66) exp_simples -> exp_simples - . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    term                           shift and go to state 132
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 95
+
+    (67) exp_simples -> exp_simples OR . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    term                           shift and go to state 133
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 96
+
+    (69) term -> term * . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    factor                         shift and go to state 134
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 97
+
+    (70) term -> term / . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    factor                         shift and go to state 135
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 98
+
+    (71) term -> term DIV . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    factor                         shift and go to state 136
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 99
+
+    (72) term -> term MOD . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    factor                         shift and go to state 137
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 100
+
+    (73) term -> term AND . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    factor                         shift and go to state 138
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 101
+
+    (83) factor -> - factor .
+
+    *               reduce using rule 83 (factor -> - factor .)
+    /               reduce using rule 83 (factor -> - factor .)
+    DIV             reduce using rule 83 (factor -> - factor .)
+    MOD             reduce using rule 83 (factor -> - factor .)
+    AND             reduce using rule 83 (factor -> - factor .)
+    =               reduce using rule 83 (factor -> - factor .)
+    NEQ             reduce using rule 83 (factor -> - factor .)
+    <               reduce using rule 83 (factor -> - factor .)
+    >               reduce using rule 83 (factor -> - factor .)
+    LE              reduce using rule 83 (factor -> - factor .)
+    GE              reduce using rule 83 (factor -> - factor .)
+    +               reduce using rule 83 (factor -> - factor .)
+    -               reduce using rule 83 (factor -> - factor .)
+    OR              reduce using rule 83 (factor -> - factor .)
+    THEN            reduce using rule 83 (factor -> - factor .)
+    DO              reduce using rule 83 (factor -> - factor .)
+    END             reduce using rule 83 (factor -> - factor .)
+    ;               reduce using rule 83 (factor -> - factor .)
+    UNTIL           reduce using rule 83 (factor -> - factor .)
+    ELSE            reduce using rule 83 (factor -> - factor .)
+    ,               reduce using rule 83 (factor -> - factor .)
+    )               reduce using rule 83 (factor -> - factor .)
+    ]               reduce using rule 83 (factor -> - factor .)
+    TO              reduce using rule 83 (factor -> - factor .)
+    DOWNTO          reduce using rule 83 (factor -> - factor .)
+
+
+state 102
+
+    (81) factor -> ( exp . )
+
+    )               shift and go to state 139
+
+
+state 103
+
+    (82) factor -> NOT factor .
+
+    *               reduce using rule 82 (factor -> NOT factor .)
+    /               reduce using rule 82 (factor -> NOT factor .)
+    DIV             reduce using rule 82 (factor -> NOT factor .)
+    MOD             reduce using rule 82 (factor -> NOT factor .)
+    AND             reduce using rule 82 (factor -> NOT factor .)
+    =               reduce using rule 82 (factor -> NOT factor .)
+    NEQ             reduce using rule 82 (factor -> NOT factor .)
+    <               reduce using rule 82 (factor -> NOT factor .)
+    >               reduce using rule 82 (factor -> NOT factor .)
+    LE              reduce using rule 82 (factor -> NOT factor .)
+    GE              reduce using rule 82 (factor -> NOT factor .)
+    +               reduce using rule 82 (factor -> NOT factor .)
+    -               reduce using rule 82 (factor -> NOT factor .)
+    OR              reduce using rule 82 (factor -> NOT factor .)
+    THEN            reduce using rule 82 (factor -> NOT factor .)
+    DO              reduce using rule 82 (factor -> NOT factor .)
+    END             reduce using rule 82 (factor -> NOT factor .)
+    ;               reduce using rule 82 (factor -> NOT factor .)
+    UNTIL           reduce using rule 82 (factor -> NOT factor .)
+    ELSE            reduce using rule 82 (factor -> NOT factor .)
+    ,               reduce using rule 82 (factor -> NOT factor .)
+    )               reduce using rule 82 (factor -> NOT factor .)
+    ]               reduce using rule 82 (factor -> NOT factor .)
+    TO              reduce using rule 82 (factor -> NOT factor .)
+    DOWNTO          reduce using rule 82 (factor -> NOT factor .)
+
+
+state 104
+
+    (84) factor -> LENGTH ( . exp )
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 140
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 105
+
+    (86) function_call -> ID ( . args_subp )
+    (42) args_subp -> . lista_exp
+    (43) args_subp -> .
+    (56) lista_exp -> . lista_exp , exp
+    (57) lista_exp -> . exp
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    )               reduce using rule 43 (args_subp -> .)
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    args_subp                      shift and go to state 141
+    lista_exp                      shift and go to state 83
+    exp                            shift and go to state 84
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 106
+
+    (46) while_comando -> WHILE exp DO . comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    ELSE            reduce using rule 37 (comando -> .)
+    END             reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    UNTIL           reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    comando                        shift and go to state 142
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 107
+
+    (47) for_comando -> FOR ID ASSIGN . exp TO exp DO comando
+    (48) for_comando -> FOR ID ASSIGN . exp DOWNTO exp DO comando
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 143
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 108
+
+    (49) io_comando -> WRITELN ( lista_exp . )
+    (56) lista_exp -> lista_exp . , exp
+
+    )               shift and go to state 144
+    ,               shift and go to state 122
+
+
+state 109
+
+    (51) io_comando -> WRITELN ( ) .
+
+    END             reduce using rule 51 (io_comando -> WRITELN ( ) .)
+    ;               reduce using rule 51 (io_comando -> WRITELN ( ) .)
+    UNTIL           reduce using rule 51 (io_comando -> WRITELN ( ) .)
+    ELSE            reduce using rule 51 (io_comando -> WRITELN ( ) .)
+
+
+state 110
+
+    (52) io_comando -> READLN ( variavel . )
+
+    )               shift and go to state 145
+
+
+state 111
+
+    (54) io_comando -> READLN ( ) .
+
+    END             reduce using rule 54 (io_comando -> READLN ( ) .)
+    ;               reduce using rule 54 (io_comando -> READLN ( ) .)
+    UNTIL           reduce using rule 54 (io_comando -> READLN ( ) .)
+    ELSE            reduce using rule 54 (io_comando -> READLN ( ) .)
+
+
+state 112
+
+    (39) variavel -> ID .
+    (40) variavel -> ID . [ exp ]
+
+    )               reduce using rule 39 (variavel -> ID .)
+    [               shift and go to state 54
+
+
+state 113
+
+    (55) repeat_comando -> REPEAT lista_comandos UNTIL . exp
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 146
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 114
+
+    (7) decl_function -> FUNCTION ID ( args_opt . ) : tipo ; vars conteudo ;
+
+    )               shift and go to state 147
+
+
+state 115
+
+    (9) args_opt -> lista_args .
+    (11) lista_args -> lista_args . ; arg_grupo
+
+    )               reduce using rule 9 (args_opt -> lista_args .)
+    ;               shift and go to state 148
+
+
+state 116
+
+    (12) lista_args -> arg_grupo .
+
+    ;               reduce using rule 12 (lista_args -> arg_grupo .)
+    )               reduce using rule 12 (lista_args -> arg_grupo .)
+
+
+state 117
+
+    (13) arg_grupo -> lista_ids . : tipo
+    (19) lista_ids -> lista_ids . , ID
+
+    :               shift and go to state 149
+    ,               shift and go to state 21
+
+
+state 118
+
+    (8) decl_procedure -> PROCEDURE ID ( args_opt . ) ; vars conteudo ;
+
+    )               shift and go to state 150
+
+
+state 119
+
+    (25) tipo -> ARRAY [ tam . ] OF tipo
+
+    ]               shift and go to state 151
+
+
+state 120
+
+    (26) tam -> INT_VAL . RANGE INT_VAL
+
+    RANGE           shift and go to state 152
+
+
+state 121
+
+    (41) procedure_call -> ID ( args_subp ) .
+
+    END             reduce using rule 41 (procedure_call -> ID ( args_subp ) .)
+    ;               reduce using rule 41 (procedure_call -> ID ( args_subp ) .)
+    UNTIL           reduce using rule 41 (procedure_call -> ID ( args_subp ) .)
+    ELSE            reduce using rule 41 (procedure_call -> ID ( args_subp ) .)
+
+
+state 122
+
+    (56) lista_exp -> lista_exp , . exp
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 153
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 123
+
+    (40) variavel -> ID [ exp ] .
+
+    ASSIGN          reduce using rule 40 (variavel -> ID [ exp ] .)
+    *               reduce using rule 40 (variavel -> ID [ exp ] .)
+    /               reduce using rule 40 (variavel -> ID [ exp ] .)
+    DIV             reduce using rule 40 (variavel -> ID [ exp ] .)
+    MOD             reduce using rule 40 (variavel -> ID [ exp ] .)
+    AND             reduce using rule 40 (variavel -> ID [ exp ] .)
+    =               reduce using rule 40 (variavel -> ID [ exp ] .)
+    NEQ             reduce using rule 40 (variavel -> ID [ exp ] .)
+    <               reduce using rule 40 (variavel -> ID [ exp ] .)
+    >               reduce using rule 40 (variavel -> ID [ exp ] .)
+    LE              reduce using rule 40 (variavel -> ID [ exp ] .)
+    GE              reduce using rule 40 (variavel -> ID [ exp ] .)
+    +               reduce using rule 40 (variavel -> ID [ exp ] .)
+    -               reduce using rule 40 (variavel -> ID [ exp ] .)
+    OR              reduce using rule 40 (variavel -> ID [ exp ] .)
+    THEN            reduce using rule 40 (variavel -> ID [ exp ] .)
+    DO              reduce using rule 40 (variavel -> ID [ exp ] .)
+    END             reduce using rule 40 (variavel -> ID [ exp ] .)
+    ;               reduce using rule 40 (variavel -> ID [ exp ] .)
+    UNTIL           reduce using rule 40 (variavel -> ID [ exp ] .)
+    ELSE            reduce using rule 40 (variavel -> ID [ exp ] .)
+    ,               reduce using rule 40 (variavel -> ID [ exp ] .)
+    )               reduce using rule 40 (variavel -> ID [ exp ] .)
+    ]               reduce using rule 40 (variavel -> ID [ exp ] .)
+    TO              reduce using rule 40 (variavel -> ID [ exp ] .)
+    DOWNTO          reduce using rule 40 (variavel -> ID [ exp ] .)
+
+
+state 124
+
+    (44) if_comando -> IF exp THEN comando .
+    (45) if_comando -> IF exp THEN comando . ELSE comando
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    END             reduce using rule 44 (if_comando -> IF exp THEN comando .)
+    ;               reduce using rule 44 (if_comando -> IF exp THEN comando .)
+    UNTIL           reduce using rule 44 (if_comando -> IF exp THEN comando .)
+    ELSE            shift and go to state 154
+
+  ! ELSE            [ reduce using rule 44 (if_comando -> IF exp THEN comando .) ]
+
+
+state 125
+
+    (59) exp -> exp_simples = exp_simples .
+    (65) exp_simples -> exp_simples . + term
+    (66) exp_simples -> exp_simples . - term
+    (67) exp_simples -> exp_simples . OR term
+
+    THEN            reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    DO              reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    END             reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    ;               reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    UNTIL           reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    ELSE            reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    ,               reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    )               reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    ]               reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    TO              reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    DOWNTO          reduce using rule 59 (exp -> exp_simples = exp_simples .)
+    +               shift and go to state 93
+    -               shift and go to state 94
+    OR              shift and go to state 95
+
+
+state 126
+
+    (60) exp -> exp_simples NEQ exp_simples .
+    (65) exp_simples -> exp_simples . + term
+    (66) exp_simples -> exp_simples . - term
+    (67) exp_simples -> exp_simples . OR term
+
+    THEN            reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    DO              reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    END             reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    ;               reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    UNTIL           reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    ELSE            reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    ,               reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    )               reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    ]               reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    TO              reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    DOWNTO          reduce using rule 60 (exp -> exp_simples NEQ exp_simples .)
+    +               shift and go to state 93
+    -               shift and go to state 94
+    OR              shift and go to state 95
+
+
+state 127
+
+    (61) exp -> exp_simples < exp_simples .
+    (65) exp_simples -> exp_simples . + term
+    (66) exp_simples -> exp_simples . - term
+    (67) exp_simples -> exp_simples . OR term
+
+    THEN            reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    DO              reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    END             reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    ;               reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    UNTIL           reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    ELSE            reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    ,               reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    )               reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    ]               reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    TO              reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    DOWNTO          reduce using rule 61 (exp -> exp_simples < exp_simples .)
+    +               shift and go to state 93
+    -               shift and go to state 94
+    OR              shift and go to state 95
+
+
+state 128
+
+    (62) exp -> exp_simples > exp_simples .
+    (65) exp_simples -> exp_simples . + term
+    (66) exp_simples -> exp_simples . - term
+    (67) exp_simples -> exp_simples . OR term
+
+    THEN            reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    DO              reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    END             reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    ;               reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    UNTIL           reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    ELSE            reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    ,               reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    )               reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    ]               reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    TO              reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    DOWNTO          reduce using rule 62 (exp -> exp_simples > exp_simples .)
+    +               shift and go to state 93
+    -               shift and go to state 94
+    OR              shift and go to state 95
+
+
+state 129
+
+    (63) exp -> exp_simples LE exp_simples .
+    (65) exp_simples -> exp_simples . + term
+    (66) exp_simples -> exp_simples . - term
+    (67) exp_simples -> exp_simples . OR term
+
+    THEN            reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    DO              reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    END             reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    ;               reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    UNTIL           reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    ELSE            reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    ,               reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    )               reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    ]               reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    TO              reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    DOWNTO          reduce using rule 63 (exp -> exp_simples LE exp_simples .)
+    +               shift and go to state 93
+    -               shift and go to state 94
+    OR              shift and go to state 95
+
+
+state 130
+
+    (64) exp -> exp_simples GE exp_simples .
+    (65) exp_simples -> exp_simples . + term
+    (66) exp_simples -> exp_simples . - term
+    (67) exp_simples -> exp_simples . OR term
+
+    THEN            reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    DO              reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    END             reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    ;               reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    UNTIL           reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    ELSE            reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    ,               reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    )               reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    ]               reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    TO              reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    DOWNTO          reduce using rule 64 (exp -> exp_simples GE exp_simples .)
+    +               shift and go to state 93
+    -               shift and go to state 94
+    OR              shift and go to state 95
+
+
+state 131
+
+    (65) exp_simples -> exp_simples + term .
+    (69) term -> term . * factor
+    (70) term -> term . / factor
+    (71) term -> term . DIV factor
+    (72) term -> term . MOD factor
+    (73) term -> term . AND factor
+
+    =               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    NEQ             reduce using rule 65 (exp_simples -> exp_simples + term .)
+    <               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    >               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    LE              reduce using rule 65 (exp_simples -> exp_simples + term .)
+    GE              reduce using rule 65 (exp_simples -> exp_simples + term .)
+    +               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    -               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    OR              reduce using rule 65 (exp_simples -> exp_simples + term .)
+    THEN            reduce using rule 65 (exp_simples -> exp_simples + term .)
+    DO              reduce using rule 65 (exp_simples -> exp_simples + term .)
+    END             reduce using rule 65 (exp_simples -> exp_simples + term .)
+    ;               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    UNTIL           reduce using rule 65 (exp_simples -> exp_simples + term .)
+    ELSE            reduce using rule 65 (exp_simples -> exp_simples + term .)
+    ,               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    )               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    ]               reduce using rule 65 (exp_simples -> exp_simples + term .)
+    TO              reduce using rule 65 (exp_simples -> exp_simples + term .)
+    DOWNTO          reduce using rule 65 (exp_simples -> exp_simples + term .)
+    *               shift and go to state 96
+    /               shift and go to state 97
+    DIV             shift and go to state 98
+    MOD             shift and go to state 99
+    AND             shift and go to state 100
+
+
+state 132
+
+    (66) exp_simples -> exp_simples - term .
+    (69) term -> term . * factor
+    (70) term -> term . / factor
+    (71) term -> term . DIV factor
+    (72) term -> term . MOD factor
+    (73) term -> term . AND factor
+
+    =               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    NEQ             reduce using rule 66 (exp_simples -> exp_simples - term .)
+    <               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    >               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    LE              reduce using rule 66 (exp_simples -> exp_simples - term .)
+    GE              reduce using rule 66 (exp_simples -> exp_simples - term .)
+    +               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    -               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    OR              reduce using rule 66 (exp_simples -> exp_simples - term .)
+    THEN            reduce using rule 66 (exp_simples -> exp_simples - term .)
+    DO              reduce using rule 66 (exp_simples -> exp_simples - term .)
+    END             reduce using rule 66 (exp_simples -> exp_simples - term .)
+    ;               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    UNTIL           reduce using rule 66 (exp_simples -> exp_simples - term .)
+    ELSE            reduce using rule 66 (exp_simples -> exp_simples - term .)
+    ,               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    )               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    ]               reduce using rule 66 (exp_simples -> exp_simples - term .)
+    TO              reduce using rule 66 (exp_simples -> exp_simples - term .)
+    DOWNTO          reduce using rule 66 (exp_simples -> exp_simples - term .)
+    *               shift and go to state 96
+    /               shift and go to state 97
+    DIV             shift and go to state 98
+    MOD             shift and go to state 99
+    AND             shift and go to state 100
+
+
+state 133
+
+    (67) exp_simples -> exp_simples OR term .
+    (69) term -> term . * factor
+    (70) term -> term . / factor
+    (71) term -> term . DIV factor
+    (72) term -> term . MOD factor
+    (73) term -> term . AND factor
+
+    =               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    NEQ             reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    <               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    >               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    LE              reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    GE              reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    +               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    -               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    OR              reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    THEN            reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    DO              reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    END             reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    ;               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    UNTIL           reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    ELSE            reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    ,               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    )               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    ]               reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    TO              reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    DOWNTO          reduce using rule 67 (exp_simples -> exp_simples OR term .)
+    *               shift and go to state 96
+    /               shift and go to state 97
+    DIV             shift and go to state 98
+    MOD             shift and go to state 99
+    AND             shift and go to state 100
+
+
+state 134
+
+    (69) term -> term * factor .
+
+    *               reduce using rule 69 (term -> term * factor .)
+    /               reduce using rule 69 (term -> term * factor .)
+    DIV             reduce using rule 69 (term -> term * factor .)
+    MOD             reduce using rule 69 (term -> term * factor .)
+    AND             reduce using rule 69 (term -> term * factor .)
+    =               reduce using rule 69 (term -> term * factor .)
+    NEQ             reduce using rule 69 (term -> term * factor .)
+    <               reduce using rule 69 (term -> term * factor .)
+    >               reduce using rule 69 (term -> term * factor .)
+    LE              reduce using rule 69 (term -> term * factor .)
+    GE              reduce using rule 69 (term -> term * factor .)
+    +               reduce using rule 69 (term -> term * factor .)
+    -               reduce using rule 69 (term -> term * factor .)
+    OR              reduce using rule 69 (term -> term * factor .)
+    THEN            reduce using rule 69 (term -> term * factor .)
+    DO              reduce using rule 69 (term -> term * factor .)
+    END             reduce using rule 69 (term -> term * factor .)
+    ;               reduce using rule 69 (term -> term * factor .)
+    UNTIL           reduce using rule 69 (term -> term * factor .)
+    ELSE            reduce using rule 69 (term -> term * factor .)
+    ,               reduce using rule 69 (term -> term * factor .)
+    )               reduce using rule 69 (term -> term * factor .)
+    ]               reduce using rule 69 (term -> term * factor .)
+    TO              reduce using rule 69 (term -> term * factor .)
+    DOWNTO          reduce using rule 69 (term -> term * factor .)
+
+
+state 135
+
+    (70) term -> term / factor .
+
+    *               reduce using rule 70 (term -> term / factor .)
+    /               reduce using rule 70 (term -> term / factor .)
+    DIV             reduce using rule 70 (term -> term / factor .)
+    MOD             reduce using rule 70 (term -> term / factor .)
+    AND             reduce using rule 70 (term -> term / factor .)
+    =               reduce using rule 70 (term -> term / factor .)
+    NEQ             reduce using rule 70 (term -> term / factor .)
+    <               reduce using rule 70 (term -> term / factor .)
+    >               reduce using rule 70 (term -> term / factor .)
+    LE              reduce using rule 70 (term -> term / factor .)
+    GE              reduce using rule 70 (term -> term / factor .)
+    +               reduce using rule 70 (term -> term / factor .)
+    -               reduce using rule 70 (term -> term / factor .)
+    OR              reduce using rule 70 (term -> term / factor .)
+    THEN            reduce using rule 70 (term -> term / factor .)
+    DO              reduce using rule 70 (term -> term / factor .)
+    END             reduce using rule 70 (term -> term / factor .)
+    ;               reduce using rule 70 (term -> term / factor .)
+    UNTIL           reduce using rule 70 (term -> term / factor .)
+    ELSE            reduce using rule 70 (term -> term / factor .)
+    ,               reduce using rule 70 (term -> term / factor .)
+    )               reduce using rule 70 (term -> term / factor .)
+    ]               reduce using rule 70 (term -> term / factor .)
+    TO              reduce using rule 70 (term -> term / factor .)
+    DOWNTO          reduce using rule 70 (term -> term / factor .)
+
+
+state 136
+
+    (71) term -> term DIV factor .
+
+    *               reduce using rule 71 (term -> term DIV factor .)
+    /               reduce using rule 71 (term -> term DIV factor .)
+    DIV             reduce using rule 71 (term -> term DIV factor .)
+    MOD             reduce using rule 71 (term -> term DIV factor .)
+    AND             reduce using rule 71 (term -> term DIV factor .)
+    =               reduce using rule 71 (term -> term DIV factor .)
+    NEQ             reduce using rule 71 (term -> term DIV factor .)
+    <               reduce using rule 71 (term -> term DIV factor .)
+    >               reduce using rule 71 (term -> term DIV factor .)
+    LE              reduce using rule 71 (term -> term DIV factor .)
+    GE              reduce using rule 71 (term -> term DIV factor .)
+    +               reduce using rule 71 (term -> term DIV factor .)
+    -               reduce using rule 71 (term -> term DIV factor .)
+    OR              reduce using rule 71 (term -> term DIV factor .)
+    THEN            reduce using rule 71 (term -> term DIV factor .)
+    DO              reduce using rule 71 (term -> term DIV factor .)
+    END             reduce using rule 71 (term -> term DIV factor .)
+    ;               reduce using rule 71 (term -> term DIV factor .)
+    UNTIL           reduce using rule 71 (term -> term DIV factor .)
+    ELSE            reduce using rule 71 (term -> term DIV factor .)
+    ,               reduce using rule 71 (term -> term DIV factor .)
+    )               reduce using rule 71 (term -> term DIV factor .)
+    ]               reduce using rule 71 (term -> term DIV factor .)
+    TO              reduce using rule 71 (term -> term DIV factor .)
+    DOWNTO          reduce using rule 71 (term -> term DIV factor .)
+
+
+state 137
+
+    (72) term -> term MOD factor .
+
+    *               reduce using rule 72 (term -> term MOD factor .)
+    /               reduce using rule 72 (term -> term MOD factor .)
+    DIV             reduce using rule 72 (term -> term MOD factor .)
+    MOD             reduce using rule 72 (term -> term MOD factor .)
+    AND             reduce using rule 72 (term -> term MOD factor .)
+    =               reduce using rule 72 (term -> term MOD factor .)
+    NEQ             reduce using rule 72 (term -> term MOD factor .)
+    <               reduce using rule 72 (term -> term MOD factor .)
+    >               reduce using rule 72 (term -> term MOD factor .)
+    LE              reduce using rule 72 (term -> term MOD factor .)
+    GE              reduce using rule 72 (term -> term MOD factor .)
+    +               reduce using rule 72 (term -> term MOD factor .)
+    -               reduce using rule 72 (term -> term MOD factor .)
+    OR              reduce using rule 72 (term -> term MOD factor .)
+    THEN            reduce using rule 72 (term -> term MOD factor .)
+    DO              reduce using rule 72 (term -> term MOD factor .)
+    END             reduce using rule 72 (term -> term MOD factor .)
+    ;               reduce using rule 72 (term -> term MOD factor .)
+    UNTIL           reduce using rule 72 (term -> term MOD factor .)
+    ELSE            reduce using rule 72 (term -> term MOD factor .)
+    ,               reduce using rule 72 (term -> term MOD factor .)
+    )               reduce using rule 72 (term -> term MOD factor .)
+    ]               reduce using rule 72 (term -> term MOD factor .)
+    TO              reduce using rule 72 (term -> term MOD factor .)
+    DOWNTO          reduce using rule 72 (term -> term MOD factor .)
+
+
+state 138
+
+    (73) term -> term AND factor .
+
+    *               reduce using rule 73 (term -> term AND factor .)
+    /               reduce using rule 73 (term -> term AND factor .)
+    DIV             reduce using rule 73 (term -> term AND factor .)
+    MOD             reduce using rule 73 (term -> term AND factor .)
+    AND             reduce using rule 73 (term -> term AND factor .)
+    =               reduce using rule 73 (term -> term AND factor .)
+    NEQ             reduce using rule 73 (term -> term AND factor .)
+    <               reduce using rule 73 (term -> term AND factor .)
+    >               reduce using rule 73 (term -> term AND factor .)
+    LE              reduce using rule 73 (term -> term AND factor .)
+    GE              reduce using rule 73 (term -> term AND factor .)
+    +               reduce using rule 73 (term -> term AND factor .)
+    -               reduce using rule 73 (term -> term AND factor .)
+    OR              reduce using rule 73 (term -> term AND factor .)
+    THEN            reduce using rule 73 (term -> term AND factor .)
+    DO              reduce using rule 73 (term -> term AND factor .)
+    END             reduce using rule 73 (term -> term AND factor .)
+    ;               reduce using rule 73 (term -> term AND factor .)
+    UNTIL           reduce using rule 73 (term -> term AND factor .)
+    ELSE            reduce using rule 73 (term -> term AND factor .)
+    ,               reduce using rule 73 (term -> term AND factor .)
+    )               reduce using rule 73 (term -> term AND factor .)
+    ]               reduce using rule 73 (term -> term AND factor .)
+    TO              reduce using rule 73 (term -> term AND factor .)
+    DOWNTO          reduce using rule 73 (term -> term AND factor .)
+
+
+state 139
+
+    (81) factor -> ( exp ) .
+
+    *               reduce using rule 81 (factor -> ( exp ) .)
+    /               reduce using rule 81 (factor -> ( exp ) .)
+    DIV             reduce using rule 81 (factor -> ( exp ) .)
+    MOD             reduce using rule 81 (factor -> ( exp ) .)
+    AND             reduce using rule 81 (factor -> ( exp ) .)
+    =               reduce using rule 81 (factor -> ( exp ) .)
+    NEQ             reduce using rule 81 (factor -> ( exp ) .)
+    <               reduce using rule 81 (factor -> ( exp ) .)
+    >               reduce using rule 81 (factor -> ( exp ) .)
+    LE              reduce using rule 81 (factor -> ( exp ) .)
+    GE              reduce using rule 81 (factor -> ( exp ) .)
+    +               reduce using rule 81 (factor -> ( exp ) .)
+    -               reduce using rule 81 (factor -> ( exp ) .)
+    OR              reduce using rule 81 (factor -> ( exp ) .)
+    THEN            reduce using rule 81 (factor -> ( exp ) .)
+    DO              reduce using rule 81 (factor -> ( exp ) .)
+    END             reduce using rule 81 (factor -> ( exp ) .)
+    ;               reduce using rule 81 (factor -> ( exp ) .)
+    UNTIL           reduce using rule 81 (factor -> ( exp ) .)
+    ELSE            reduce using rule 81 (factor -> ( exp ) .)
+    ,               reduce using rule 81 (factor -> ( exp ) .)
+    )               reduce using rule 81 (factor -> ( exp ) .)
+    ]               reduce using rule 81 (factor -> ( exp ) .)
+    TO              reduce using rule 81 (factor -> ( exp ) .)
+    DOWNTO          reduce using rule 81 (factor -> ( exp ) .)
+
+
+state 140
+
+    (84) factor -> LENGTH ( exp . )
+
+    )               shift and go to state 155
+
+
+state 141
+
+    (86) function_call -> ID ( args_subp . )
+
+    )               shift and go to state 156
+
+
+state 142
+
+    (46) while_comando -> WHILE exp DO comando .
+
+    END             reduce using rule 46 (while_comando -> WHILE exp DO comando .)
+    ;               reduce using rule 46 (while_comando -> WHILE exp DO comando .)
+    UNTIL           reduce using rule 46 (while_comando -> WHILE exp DO comando .)
+    ELSE            reduce using rule 46 (while_comando -> WHILE exp DO comando .)
+
+
+state 143
+
+    (47) for_comando -> FOR ID ASSIGN exp . TO exp DO comando
+    (48) for_comando -> FOR ID ASSIGN exp . DOWNTO exp DO comando
+
+    TO              shift and go to state 157
+    DOWNTO          shift and go to state 158
+
+
+state 144
+
+    (49) io_comando -> WRITELN ( lista_exp ) .
+
+    END             reduce using rule 49 (io_comando -> WRITELN ( lista_exp ) .)
+    ;               reduce using rule 49 (io_comando -> WRITELN ( lista_exp ) .)
+    UNTIL           reduce using rule 49 (io_comando -> WRITELN ( lista_exp ) .)
+    ELSE            reduce using rule 49 (io_comando -> WRITELN ( lista_exp ) .)
+
+
+state 145
+
+    (52) io_comando -> READLN ( variavel ) .
+
+    END             reduce using rule 52 (io_comando -> READLN ( variavel ) .)
+    ;               reduce using rule 52 (io_comando -> READLN ( variavel ) .)
+    UNTIL           reduce using rule 52 (io_comando -> READLN ( variavel ) .)
+    ELSE            reduce using rule 52 (io_comando -> READLN ( variavel ) .)
+
+
+state 146
+
+    (55) repeat_comando -> REPEAT lista_comandos UNTIL exp .
+
+    END             reduce using rule 55 (repeat_comando -> REPEAT lista_comandos UNTIL exp .)
+    ;               reduce using rule 55 (repeat_comando -> REPEAT lista_comandos UNTIL exp .)
+    UNTIL           reduce using rule 55 (repeat_comando -> REPEAT lista_comandos UNTIL exp .)
+    ELSE            reduce using rule 55 (repeat_comando -> REPEAT lista_comandos UNTIL exp .)
+
+
+state 147
+
+    (7) decl_function -> FUNCTION ID ( args_opt ) . : tipo ; vars conteudo ;
+
+    :               shift and go to state 159
+
+
+state 148
+
+    (11) lista_args -> lista_args ; . arg_grupo
+    (13) arg_grupo -> . lista_ids : tipo
+    (19) lista_ids -> . lista_ids , ID
+    (20) lista_ids -> . ID
+
+    ID              shift and go to state 11
+
+    arg_grupo                      shift and go to state 160
+    lista_ids                      shift and go to state 117
+
+state 149
+
+    (13) arg_grupo -> lista_ids : . tipo
+    (21) tipo -> . INTEGER
+    (22) tipo -> . BOOLEAN
+    (23) tipo -> . REAL
+    (24) tipo -> . STRING
+    (25) tipo -> . ARRAY [ tam ] OF tipo
+
+    INTEGER         shift and go to state 44
+    BOOLEAN         shift and go to state 45
+    REAL            shift and go to state 46
+    STRING          shift and go to state 47
+    ARRAY           shift and go to state 48
+
+    tipo                           shift and go to state 161
+
+state 150
+
+    (8) decl_procedure -> PROCEDURE ID ( args_opt ) . ; vars conteudo ;
+
+    ;               shift and go to state 162
+
+
+state 151
+
+    (25) tipo -> ARRAY [ tam ] . OF tipo
+
+    OF              shift and go to state 163
+
+
+state 152
+
+    (26) tam -> INT_VAL RANGE . INT_VAL
+
+    INT_VAL         shift and go to state 164
+
+
+state 153
+
+    (56) lista_exp -> lista_exp , exp .
+
+    ,               reduce using rule 56 (lista_exp -> lista_exp , exp .)
+    )               reduce using rule 56 (lista_exp -> lista_exp , exp .)
+
+
+state 154
+
+    (45) if_comando -> IF exp THEN comando ELSE . comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    ELSE            reduce using rule 37 (comando -> .)
+    END             reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    UNTIL           reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    comando                        shift and go to state 165
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 155
+
+    (84) factor -> LENGTH ( exp ) .
+
+    *               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    /               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    DIV             reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    MOD             reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    AND             reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    =               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    NEQ             reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    <               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    >               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    LE              reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    GE              reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    +               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    -               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    OR              reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    THEN            reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    DO              reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    END             reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    ;               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    UNTIL           reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    ELSE            reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    ,               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    )               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    ]               reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    TO              reduce using rule 84 (factor -> LENGTH ( exp ) .)
+    DOWNTO          reduce using rule 84 (factor -> LENGTH ( exp ) .)
+
+
+state 156
+
+    (86) function_call -> ID ( args_subp ) .
+
+    *               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    /               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    DIV             reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    MOD             reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    AND             reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    =               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    NEQ             reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    <               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    >               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    LE              reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    GE              reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    +               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    -               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    OR              reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    THEN            reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    DO              reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    END             reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    ;               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    UNTIL           reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    ELSE            reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    ,               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    )               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    ]               reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    TO              reduce using rule 86 (function_call -> ID ( args_subp ) .)
+    DOWNTO          reduce using rule 86 (function_call -> ID ( args_subp ) .)
+
+
+state 157
+
+    (47) for_comando -> FOR ID ASSIGN exp TO . exp DO comando
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 166
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 158
+
+    (48) for_comando -> FOR ID ASSIGN exp DOWNTO . exp DO comando
+    (58) exp -> . exp_simples
+    (59) exp -> . exp_simples = exp_simples
+    (60) exp -> . exp_simples NEQ exp_simples
+    (61) exp -> . exp_simples < exp_simples
+    (62) exp -> . exp_simples > exp_simples
+    (63) exp -> . exp_simples LE exp_simples
+    (64) exp -> . exp_simples GE exp_simples
+    (65) exp_simples -> . exp_simples + term
+    (66) exp_simples -> . exp_simples - term
+    (67) exp_simples -> . exp_simples OR term
+    (68) exp_simples -> . term
+    (69) term -> . term * factor
+    (70) term -> . term / factor
+    (71) term -> . term DIV factor
+    (72) term -> . term MOD factor
+    (73) term -> . term AND factor
+    (74) term -> . factor
+    (75) factor -> . variavel
+    (76) factor -> . INT_VAL
+    (77) factor -> . REAL_VAL
+    (78) factor -> . STRING_LITERAL
+    (79) factor -> . TRUE
+    (80) factor -> . FALSE
+    (81) factor -> . ( exp )
+    (82) factor -> . NOT factor
+    (83) factor -> . - factor
+    (84) factor -> . LENGTH ( exp )
+    (85) factor -> . function_call
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+    (86) function_call -> . ID ( args_subp )
+
+    INT_VAL         shift and go to state 61
+    REAL_VAL        shift and go to state 62
+    STRING_LITERAL  shift and go to state 63
+    TRUE            shift and go to state 64
+    FALSE           shift and go to state 65
+    (               shift and go to state 66
+    NOT             shift and go to state 67
+    -               shift and go to state 58
+    LENGTH          shift and go to state 68
+    ID              shift and go to state 70
+
+    exp                            shift and go to state 167
+    exp_simples                    shift and go to state 56
+    term                           shift and go to state 57
+    factor                         shift and go to state 59
+    variavel                       shift and go to state 60
+    function_call                  shift and go to state 69
+
+state 159
+
+    (7) decl_function -> FUNCTION ID ( args_opt ) : . tipo ; vars conteudo ;
+    (21) tipo -> . INTEGER
+    (22) tipo -> . BOOLEAN
+    (23) tipo -> . REAL
+    (24) tipo -> . STRING
+    (25) tipo -> . ARRAY [ tam ] OF tipo
+
+    INTEGER         shift and go to state 44
+    BOOLEAN         shift and go to state 45
+    REAL            shift and go to state 46
+    STRING          shift and go to state 47
+    ARRAY           shift and go to state 48
+
+    tipo                           shift and go to state 168
+
+state 160
+
+    (11) lista_args -> lista_args ; arg_grupo .
+
+    ;               reduce using rule 11 (lista_args -> lista_args ; arg_grupo .)
+    )               reduce using rule 11 (lista_args -> lista_args ; arg_grupo .)
+
+
+state 161
+
+    (13) arg_grupo -> lista_ids : tipo .
+
+    ;               reduce using rule 13 (arg_grupo -> lista_ids : tipo .)
+    )               reduce using rule 13 (arg_grupo -> lista_ids : tipo .)
+
+
+state 162
+
+    (8) decl_procedure -> PROCEDURE ID ( args_opt ) ; . vars conteudo ;
+    (14) vars -> . VAR lista_vars
+    (15) vars -> .
+
+    VAR             shift and go to state 6
+    BEGIN           reduce using rule 15 (vars -> .)
+
+    vars                           shift and go to state 169
+
+state 163
+
+    (25) tipo -> ARRAY [ tam ] OF . tipo
+    (21) tipo -> . INTEGER
+    (22) tipo -> . BOOLEAN
+    (23) tipo -> . REAL
+    (24) tipo -> . STRING
+    (25) tipo -> . ARRAY [ tam ] OF tipo
+
+    INTEGER         shift and go to state 44
+    BOOLEAN         shift and go to state 45
+    REAL            shift and go to state 46
+    STRING          shift and go to state 47
+    ARRAY           shift and go to state 48
+
+    tipo                           shift and go to state 170
+
+state 164
+
+    (26) tam -> INT_VAL RANGE INT_VAL .
+
+    ]               reduce using rule 26 (tam -> INT_VAL RANGE INT_VAL .)
+
+
+state 165
+
+    (45) if_comando -> IF exp THEN comando ELSE comando .
+
+    END             reduce using rule 45 (if_comando -> IF exp THEN comando ELSE comando .)
+    ;               reduce using rule 45 (if_comando -> IF exp THEN comando ELSE comando .)
+    UNTIL           reduce using rule 45 (if_comando -> IF exp THEN comando ELSE comando .)
+    ELSE            reduce using rule 45 (if_comando -> IF exp THEN comando ELSE comando .)
+
+
+state 166
+
+    (47) for_comando -> FOR ID ASSIGN exp TO exp . DO comando
+
+    DO              shift and go to state 171
+
+
+state 167
+
+    (48) for_comando -> FOR ID ASSIGN exp DOWNTO exp . DO comando
+
+    DO              shift and go to state 172
+
+
+state 168
+
+    (7) decl_function -> FUNCTION ID ( args_opt ) : tipo . ; vars conteudo ;
+
+    ;               shift and go to state 173
+
+
+state 169
+
+    (8) decl_procedure -> PROCEDURE ID ( args_opt ) ; vars . conteudo ;
+    (2) conteudo -> . BEGIN lista_comandos END
+
+    BEGIN           shift and go to state 14
+
+    conteudo                       shift and go to state 174
+
+state 170
+
+    (25) tipo -> ARRAY [ tam ] OF tipo .
+
+    ;               reduce using rule 25 (tipo -> ARRAY [ tam ] OF tipo .)
+    )               reduce using rule 25 (tipo -> ARRAY [ tam ] OF tipo .)
+
+
+state 171
+
+    (47) for_comando -> FOR ID ASSIGN exp TO exp DO . comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    ELSE            reduce using rule 37 (comando -> .)
+    END             reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    UNTIL           reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    comando                        shift and go to state 175
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 172
+
+    (48) for_comando -> FOR ID ASSIGN exp DOWNTO exp DO . comando
+    (29) comando -> . assignment
+    (30) comando -> . procedure_call
+    (31) comando -> . if_comando
+    (32) comando -> . while_comando
+    (33) comando -> . for_comando
+    (34) comando -> . io_comando
+    (35) comando -> . repeat_comando
+    (36) comando -> . conteudo
+    (37) comando -> .
+    (38) assignment -> . variavel ASSIGN exp
+    (41) procedure_call -> . ID ( args_subp )
+    (44) if_comando -> . IF exp THEN comando
+    (45) if_comando -> . IF exp THEN comando ELSE comando
+    (46) while_comando -> . WHILE exp DO comando
+    (47) for_comando -> . FOR ID ASSIGN exp TO exp DO comando
+    (48) for_comando -> . FOR ID ASSIGN exp DOWNTO exp DO comando
+    (49) io_comando -> . WRITELN ( lista_exp )
+    (50) io_comando -> . WRITELN
+    (51) io_comando -> . WRITELN ( )
+    (52) io_comando -> . READLN ( variavel )
+    (53) io_comando -> . READLN
+    (54) io_comando -> . READLN ( )
+    (55) repeat_comando -> . REPEAT lista_comandos UNTIL exp
+    (2) conteudo -> . BEGIN lista_comandos END
+    (39) variavel -> . ID
+    (40) variavel -> . ID [ exp ]
+
+    ELSE            reduce using rule 37 (comando -> .)
+    END             reduce using rule 37 (comando -> .)
+    ;               reduce using rule 37 (comando -> .)
+    UNTIL           reduce using rule 37 (comando -> .)
+    ID              shift and go to state 34
+    IF              shift and go to state 35
+    WHILE           shift and go to state 36
+    FOR             shift and go to state 37
+    WRITELN         shift and go to state 38
+    READLN          shift and go to state 39
+    REPEAT          shift and go to state 40
+    BEGIN           shift and go to state 14
+
+    comando                        shift and go to state 176
+    assignment                     shift and go to state 25
+    procedure_call                 shift and go to state 26
+    if_comando                     shift and go to state 27
+    while_comando                  shift and go to state 28
+    for_comando                    shift and go to state 29
+    io_comando                     shift and go to state 30
+    repeat_comando                 shift and go to state 31
+    conteudo                       shift and go to state 32
+    variavel                       shift and go to state 33
+
+state 173
+
+    (7) decl_function -> FUNCTION ID ( args_opt ) : tipo ; . vars conteudo ;
+    (14) vars -> . VAR lista_vars
+    (15) vars -> .
+
+    VAR             shift and go to state 6
+    BEGIN           reduce using rule 15 (vars -> .)
+
+    vars                           shift and go to state 177
+
+state 174
+
+    (8) decl_procedure -> PROCEDURE ID ( args_opt ) ; vars conteudo . ;
+
+    ;               shift and go to state 178
+
+
+state 175
+
+    (47) for_comando -> FOR ID ASSIGN exp TO exp DO comando .
+
+    END             reduce using rule 47 (for_comando -> FOR ID ASSIGN exp TO exp DO comando .)
+    ;               reduce using rule 47 (for_comando -> FOR ID ASSIGN exp TO exp DO comando .)
+    UNTIL           reduce using rule 47 (for_comando -> FOR ID ASSIGN exp TO exp DO comando .)
+    ELSE            reduce using rule 47 (for_comando -> FOR ID ASSIGN exp TO exp DO comando .)
+
+
+state 176
+
+    (48) for_comando -> FOR ID ASSIGN exp DOWNTO exp DO comando .
+
+    END             reduce using rule 48 (for_comando -> FOR ID ASSIGN exp DOWNTO exp DO comando .)
+    ;               reduce using rule 48 (for_comando -> FOR ID ASSIGN exp DOWNTO exp DO comando .)
+    UNTIL           reduce using rule 48 (for_comando -> FOR ID ASSIGN exp DOWNTO exp DO comando .)
+    ELSE            reduce using rule 48 (for_comando -> FOR ID ASSIGN exp DOWNTO exp DO comando .)
+
+
+state 177
+
+    (7) decl_function -> FUNCTION ID ( args_opt ) : tipo ; vars . conteudo ;
+    (2) conteudo -> . BEGIN lista_comandos END
+
+    BEGIN           shift and go to state 14
+
+    conteudo                       shift and go to state 179
+
+state 178
+
+    (8) decl_procedure -> PROCEDURE ID ( args_opt ) ; vars conteudo ; .
+
+    BEGIN           reduce using rule 8 (decl_procedure -> PROCEDURE ID ( args_opt ) ; vars conteudo ; .)
+    FUNCTION        reduce using rule 8 (decl_procedure -> PROCEDURE ID ( args_opt ) ; vars conteudo ; .)
+    PROCEDURE       reduce using rule 8 (decl_procedure -> PROCEDURE ID ( args_opt ) ; vars conteudo ; .)
+
+
+state 179
+
+    (7) decl_function -> FUNCTION ID ( args_opt ) : tipo ; vars conteudo . ;
+
+    ;               shift and go to state 180
+
+
+state 180
+
+    (7) decl_function -> FUNCTION ID ( args_opt ) : tipo ; vars conteudo ; .
+
+    BEGIN           reduce using rule 7 (decl_function -> FUNCTION ID ( args_opt ) : tipo ; vars conteudo ; .)
+    FUNCTION        reduce using rule 7 (decl_function -> FUNCTION ID ( args_opt ) : tipo ; vars conteudo ; .)
+    PROCEDURE       reduce using rule 7 (decl_function -> FUNCTION ID ( args_opt ) : tipo ; vars conteudo ; .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ELSE in state 124 resolved as shift

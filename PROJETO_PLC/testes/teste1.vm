@@ -1,0 +1,7 @@
+START
+JUMP main
+main:
+PUSHS "Ola, Mundo!"
+WRITES
+WRITELN
+STOP
